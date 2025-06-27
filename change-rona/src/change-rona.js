@@ -21,23 +21,23 @@ class changeRona extends HTMLElement {
 	sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 	async init() {
-		logger.info('Init change rona plugin')
+		logger.info('[change-rona] Init change rona plugin')
 		await this.sleep (5000);
 		await Desktop.config.init({widgetName: "change-rona", widgetProvider: "Aashish (aaberry)"}); 
 		if (this.delaySeconds) {
-			logger.info(`Delay read from layout: ${this.delaySeconds} seconds.`);
+			logger.info('[change-rona]Delay read from layout: ${this.delaySeconds} seconds.');
 			this.delaySeconds = this.delaySeconds * 1000;
 		}
 		else {
 			this.delaySeconds = 10000;
-			logger.info(`Delay unavailable in layout. Default 10 seconds.`);
+			logger.info('[change-rona]Delay unavailable in layout. Default 10 seconds.');
 		}
 		this.agentInteractionEvents();
 	}
 
 	async agentInteractionEvents() {
 		Desktop.agentContact.addEventListener("eAgentOfferContactRona", (e => {
-			logger.info(`RONA triggered!`)
+			logger.info('[change-rona]RONA triggered!')
 			this.triggerChange();
 		}));
 	}
@@ -49,7 +49,7 @@ class changeRona extends HTMLElement {
 				state: 'Available',
 				auxCodeIdArray: '0',
 			});
-			logger.info(`State changed to Available!`);
+			logger.info('[change-rona]State changed to Available!');
 		}
 		catch (error) {
 			logger.error(error);
