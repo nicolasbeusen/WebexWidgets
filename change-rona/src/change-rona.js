@@ -36,6 +36,10 @@ class changeRona extends HTMLElement {
 	}
 
 	async agentInteractionEvents() {
+		Desktop.agentContact.addEventListener("eAgentMonitorStateChanged", (e => {
+			logger.info('[change-rona]eAgentMonitorStateChanged ==>'+e)
+		}));
+
 		Desktop.agentContact.addEventListener("eAgentOfferContactRona", (e => {
 			logger.info('[change-rona]RONA triggered!')
 			this.triggerChange();
