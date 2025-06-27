@@ -35,12 +35,3 @@ jobs:
           name: change-rona
           path: dist
     
-  deploy:
-    needs: [build]
-    steps:
-      # 👇 Get the dist folder
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: change-rona
-      - run: ls dist
