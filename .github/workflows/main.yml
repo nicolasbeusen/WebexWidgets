@@ -32,5 +32,15 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: my-built-app
-          path: change-rona/src/build
+          name: change-rona
+          path: dist
+    
+  deploy:
+    needs: [build]
+    steps:
+      # 👇 Get the dist folder
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: change-rona
+      - run: ls dist
