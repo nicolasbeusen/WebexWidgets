@@ -21,6 +21,7 @@ class changeRona extends HTMLElement {
 	sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 	async init() {
+		logger.info('Init change rona plugin')
 		await this.sleep (5000);
 		await Desktop.config.init({widgetName: "change-rona", widgetProvider: "Aashish (aaberry)"}); 
 		if (this.delaySeconds) {
