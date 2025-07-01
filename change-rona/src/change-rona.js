@@ -35,9 +35,32 @@ class changeRona extends HTMLElement {
 		this.agentInteractionEvents();
 	}
 
+	async pauseRecording(interactionId) {
+		try {
+			const result = await Desktop.agentContact.pauseRecording({ interactionId });
+			logger.info(result);
+		}
+		catch (error) {
+			logger.error (error);
+		}
+	}
+
 	async agentInteractionEvents() {
-		Desktop.agentContact.addEventListener("eAgentMonitorStateChanged", (e => {
-			logger.info('[change-rona] --> Stage changedç!!!')
+		
+		Desktop.agentContact.addEventListener("eAgentContactAssigned", (e => {
+			// Identify Inbound calls and pause recording when call is answered
+			if (e.data.interaction.mediaType === 'telephony' && e.data.interaction.contactDirection.type === 'INBOUND') {
+				logger.info(`interactionId: ${e.data.interactionId}`);
+				this.pauseRecording(e.data.interactionId);
+			}
+		}));
+
+		Desktop.agentContact.addEventListener("ePauseRecording", (e => {
+			logger.info("Recording Paused!");
+		}));
+
+		Desktop.agentContact.addEventListener("eResumeRecording", (e => {
+			logger.info("Recording Resumed!");
 		}));
 
 		Desktop.agentContact.addEventListener("eAgentOfferContactRona", (e => {
