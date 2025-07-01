@@ -23,6 +23,7 @@ class changeRona extends HTMLElement {
 	async init() {
 		logger.info('[change-rona] Init change rona plugin')
 		await this.sleep (5000);
+
 		await Desktop.config.init({widgetName: "change-rona", widgetProvider: "Aashish (aaberry)"}); 
 		if (this.delaySeconds) {
 			logger.info('[change-rona]Delay read from layout: ${this.delaySeconds} seconds.');
@@ -32,7 +33,11 @@ class changeRona extends HTMLElement {
 			this.delaySeconds = 10000;
 			logger.info('[change-rona]Delay unavailable in layout. Default 10 seconds.');
 		}
+		logger.info('[change-rona] Add event listeners')
 		this.agentInteractionEvents();
+
+		logger.info('[change-rona] Force agent to be available')
+		this.triggerChange();
 	}
 
 	async pauseRecording(interactionId) {
@@ -46,7 +51,7 @@ class changeRona extends HTMLElement {
 	}
 
 	async agentInteractionEvents() {
-		
+
 		Desktop.agentContact.addEventListener("eAgentContactAssigned", (e => {
 			// Identify Inbound calls and pause recording when call is answered
 			if (e.data.interaction.mediaType === 'telephony' && e.data.interaction.contactDirection.type === 'INBOUND') {
